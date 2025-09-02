@@ -9,7 +9,7 @@ class SmartFanAIAgent:
         self.load_data()
 
     def load_data(self):
-        # Load data if file exists or create default data
+        
         if os.path.exists(self.data_file):
             self.df = pd.read_csv(self.data_file)
             print(f"Loaded data from {self.data_file}")
@@ -20,14 +20,14 @@ class SmartFanAIAgent:
                 "Mentions": [45, 30, 20, 15, 10],
                 "Avg Sentiment": [0.35, 0.10, -0.20, 0.05, -0.10]
             })
-        # Calculate SoV if missing
+        
         if "SoV (%)" not in self.df.columns:
             self.df["SoV (%)"] = (self.df["Mentions"] / self.df["Mentions"].sum()) * 100
-        # Validate columns
+       
         missing = [c for c in self.required_cols if c not in self.df.columns]
         if missing:
             raise ValueError(f"Missing columns in data: {missing}")
-        # Convert columns to numeric
+       
         self.df["SoV (%)"] = pd.to_numeric(self.df["SoV (%)"], errors="coerce")
         self.df["Avg Sentiment"] = pd.to_numeric(self.df["Avg Sentiment"], errors="coerce")
 
